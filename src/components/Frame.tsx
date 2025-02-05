@@ -13,7 +13,6 @@ import {
   CardDescription,
   CardContent,
 } from "~/components/ui/card";
-
 import { config } from "~/components/providers/WagmiProvider";
 import { truncateAddress } from "~/lib/truncateAddress";
 import { base, optimism } from "wagmi/chains";
@@ -43,7 +42,6 @@ export default function Frame() {
   const [context, setContext] = useState<Context.FrameContext>();
 
   const [added, setAdded] = useState(false);
-
   const [addFrameResult, setAddFrameResult] = useState("");
 
   const addFrame = useCallback(async () => {
@@ -72,7 +70,6 @@ export default function Frame() {
       setContext(context);
       setAdded(context.client.added);
 
-      // If frame isn't already added, prompt user to add it
       if (!context.client.added) {
         addFrame();
       }
@@ -104,15 +101,12 @@ export default function Frame() {
       console.log("Calling ready");
       sdk.actions.ready({});
 
-      // Set up a MIPD Store, and request Providers.
       const store = createStore();
-
-      // Subscribe to the MIPD Store.
       store.subscribe((providerDetails) => {
         console.log("PROVIDER DETAILS", providerDetails);
-        // => [EIP6963ProviderDetail, EIP6963ProviderDetail, ...]
       });
     };
+    
     if (sdk && !isSDKLoaded) {
       console.log("Calling load");
       setIsSDKLoaded(true);
