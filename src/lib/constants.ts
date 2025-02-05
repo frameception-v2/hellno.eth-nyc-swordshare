@@ -1,3 +1,3 @@
-export const PROJECT_ID = 'farcaster-frames-template';
-export const PROJECT_TITLE = "Farcaster Frames Template";
-export const PROJECT_DESCRIPTION = "A Farcaster Frames v2 Template by hellno";
+export const PROJECT_ID = 'NYC Swordshare';
+export const PROJECT_TITLE = "NYC Swordshare";
+export const PROJECT_DESCRIPTION = "A community-driven platform for sword enthusiasts in New York City to connect, share knowledge, and organize meetups";
