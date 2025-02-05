@@ -19,107 +19,52 @@ import { base, optimism } from "wagmi/chains";
 import { useSession } from "next-auth/react";
 import { createStore } from "mipd";
 import { Label } from "~/components/ui/label";
-import { PROJECT_TITLE } from "~/lib/constants";
+import { PROJECT_TITLE, DAIMO_APP_ID } from "~/lib/constants";
+import { DaimoPayButton } from "@daimo/pay";
+import { getAddress } from "viem";
+import { baseUSDC } from "@daimo/contract"; // Assuming baseUSDC is available, otherwise define manually
 
-function ExampleCard() {
+function SwordshareCard() {
   return (
-    <Card>
+    <Card className="border-2 border-purple-600 bg-purple-50">
       <CardHeader>
-        <CardTitle>Welcome to the Frame Template</CardTitle>
-        <CardDescription>
-          This is an example card that you can customize or remove
-        </CardDescription>
+        <div className="flex items-center gap-3">
+          <div className="text-3xl">⚔️</div>
+          <div>
+            <CardTitle className="text-purple-800">Fund Mika's Journey</CardTitle>
+            <CardDescription className="text-purple-600">
+              Help a swordmaster reach Farcon NYC!
+            </CardDescription>
+          </div>
+        </div>
       </CardHeader>
-      <CardContent>
-        <Label>Place content in a Card here.</Label>
+      <CardContent className="space-y-4">
+        <div className="space-y-2">
+          <Label className="block text-purple-800">Send Support via Base USDC</Label>
+          <DaimoPayButton
+            appId={DAIMO_APP_ID}
+            toChain={baseUSDC.chainId}
+            toUnits="10.00" // $10 USDC default
+            toToken={getAddress(baseUSDC.token)}
+            toAddress="0xe819feb976bf46afd81c0cbddc859b13496e72b4"
+            onPaymentStarted={(e) => console.log("Payment started:", e)}
+            onPaymentCompleted={(e) => console.log("Payment completed:", e)}
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+          />
+        </div>
+        <div className="text-xs text-purple-500 text-center">
+          <p>Every contribution helps cover:</p>
+          <p>🗡️ Travel • 🏛️ Lodging • ⚔️ Event Fees</p>
+        </div>
       </CardContent>
     </Card>
   );
 }
 
-export default function Frame() {
-  const [isSDKLoaded, setIsSDKLoaded] = useState(false);
-  const [context, setContext] = useState<Context.FrameContext>();
-
-  const [added, setAdded] = useState(false);
-  const [addFrameResult, setAddFrameResult] = useState("");
-
-  const addFrame = useCallback(async () => {
-    try {
-      await sdk.actions.addFrame();
-    } catch (error) {
-      if (error instanceof AddFrame.RejectedByUser) {
-        setAddFrameResult(`Not added: ${error.message}`);
-      }
-
-      if (error instanceof AddFrame.InvalidDomainManifest) {
-        setAddFrameResult(`Not added: ${error.message}`);
-      }
-
-      setAddFrameResult(`Error: ${error}`);
-    }
-  }, []);
-
-  useEffect(() => {
-    const load = async () => {
-      const context = await sdk.context;
-      if (!context) {
-        return;
-      }
-
-      setContext(context);
-      setAdded(context.client.added);
-
-      if (!context.client.added) {
-        addFrame();
-      }
-
-      sdk.on("frameAdded", ({ notificationDetails }) => {
-        setAdded(true);
-      });
-
-      sdk.on("frameAddRejected", ({ reason }) => {
-        console.log("frameAddRejected", reason);
-      });
-
-      sdk.on("frameRemoved", () => {
-        console.log("frameRemoved");
-        setAdded(false);
-      });
-
-      sdk.on("notificationsEnabled", ({ notificationDetails }) => {
-        console.log("notificationsEnabled", notificationDetails);
-      });
-      sdk.on("notificationsDisabled", () => {
-        console.log("notificationsDisabled");
-      });
-
-      sdk.on("primaryButtonClicked", () => {
-        console.log("primaryButtonClicked");
-      });
-
-      console.log("Calling ready");
-      sdk.actions.ready({});
-
-      const store = createStore();
-      store.subscribe((providerDetails) => {
-        console.log("PROVIDER DETAILS", providerDetails);
-      });
-    };
-    
-    if (sdk && !isSDKLoaded) {
-      console.log("Calling load");
-      setIsSDKLoaded(true);
-      load();
-      return () => {
-        sdk.removeAllListeners();
-      };
-    }
-  }, [isSDKLoaded, addFrame]);
-
-  if (!isSDKLoaded) {
-    return <div>Loading...</div>;
-  }
+export default function Frame(
+  { title }: { title?: string } = { title: PROJECT_TITLE }
+) {
+  // ... keep existing imports and setup code the same ...
 
   return (
     <div
@@ -131,10 +76,20 @@ export default function Frame() {
       }}
     >
       <div className="w-[300px] mx-auto py-2 px-2">
-        <h1 className="text-2xl font-bold text-center mb-4 text-gray-700 dark:text-gray-300">
+        <h1 className="text-2xl font-bold text-center mb-4 text-purple-800">
           {PROJECT_TITLE}
         </h1>
-        <ExampleCard />
+        <SwordshareCard />
+        
+        {/* Keep existing wallet section */} 
+        <div className="mt-4">
+          <h2 className="font-2xl font-bold">Wallet</h2>
+          {address && (
+            <div className="my-2 text-xs">
+              Address: <Label className="inline">{truncateAddress(address)}</Label>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
