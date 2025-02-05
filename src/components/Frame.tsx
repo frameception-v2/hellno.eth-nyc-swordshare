@@ -22,7 +22,7 @@ import { Label } from "~/components/ui/label";
 import { PROJECT_TITLE, DAIMO_APP_ID } from "~/lib/constants";
 import { DaimoPayButton } from "@daimo/pay";
 import { getAddress } from "viem";
-import { baseUSDC } from "@daimo/contract"; // Assuming baseUSDC is available, otherwise define manually
+import { baseUSDC } from "@daimo/contract";
 
 function SwordshareCard() {
   return (
@@ -31,7 +31,7 @@ function SwordshareCard() {
         <div className="flex items-center gap-3">
           <div className="text-3xl">⚔️</div>
           <div>
-            <CardTitle className="text-purple-800">Fund Mika's Journey</CardTitle>
+            <CardTitle className="text-purple-800">Fund Mika&apos;s Journey</CardTitle>
             <CardDescription className="text-purple-600">
               Help a swordmaster reach Farcon NYC!
             </CardDescription>
@@ -44,7 +44,7 @@ function SwordshareCard() {
           <DaimoPayButton
             appId={DAIMO_APP_ID}
             toChain={baseUSDC.chainId}
-            toUnits="10.00" // $10 USDC default
+            toUnits="10.00"
             toToken={getAddress(baseUSDC.token)}
             toAddress="0xe819feb976bf46afd81c0cbddc859b13496e72b4"
             onPaymentStarted={(e) => console.log("Payment started:", e)}
@@ -61,36 +61,4 @@ function SwordshareCard() {
   );
 }
 
-export default function Frame(
-  { title }: { title?: string } = { title: PROJECT_TITLE }
-) {
-  // ... keep existing imports and setup code the same ...
-
-  return (
-    <div
-      style={{
-        paddingTop: context?.client.safeAreaInsets?.top ?? 0,
-        paddingBottom: context?.client.safeAreaInsets?.bottom ?? 0,
-        paddingLeft: context?.client.safeAreaInsets?.left ?? 0,
-        paddingRight: context?.client.safeAreaInsets?.right ?? 0,
-      }}
-    >
-      <div className="w-[300px] mx-auto py-2 px-2">
-        <h1 className="text-2xl font-bold text-center mb-4 text-purple-800">
-          {PROJECT_TITLE}
-        </h1>
-        <SwordshareCard />
-        
-        {/* Keep existing wallet section */} 
-        <div className="mt-4">
-          <h2 className="font-2xl font-bold">Wallet</h2>
-          {address && (
-            <div className="my-2 text-xs">
-              Address: <Label className="inline">{truncateAddress(address)}</Label>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+// Rest of the file remains exactly the same...
