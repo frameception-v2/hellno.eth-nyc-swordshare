@@ -42,9 +42,9 @@ export default function SwordshareCard() {
           <Label className="block text-purple-800">Send Support via Base USDC</Label>
           <DaimoPayButton
             appId={DAIMO_APP_ID}
-            toChain={baseUSDC.chainId}
+            toChain={8453} // Base chain ID
             toUnits="10.00"
-            toToken={getAddress(baseUSDC.token)}
+            toToken={getAddress("0x833589fCD6eDb6E08B4DF7c1bF1eFd602D186c857")} // Base USDC contract address
             toAddress="0xe819feb976bf46afd81c0cbddc859b13496e72b4"
             onPaymentStarted={(e) => console.log("Payment started:", e)}
             onPaymentCompleted={(e) => console.log("Payment completed:", e)}
