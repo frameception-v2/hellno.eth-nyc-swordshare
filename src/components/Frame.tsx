@@ -24,7 +24,7 @@ import { DaimoPayButton } from "@daimo/pay";
 import { getAddress } from "viem";
 import { baseUSDC } from "@daimo/contract";
 
-function SwordshareCard() {
+export default function SwordshareCard() {
   return (
     <Card className="border-2 border-purple-600 bg-purple-50">
       <CardHeader>
