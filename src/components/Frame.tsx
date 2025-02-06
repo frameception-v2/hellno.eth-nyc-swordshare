@@ -22,7 +22,6 @@ import { Label } from "~/components/ui/label";
 import { PROJECT_TITLE, DAIMO_APP_ID } from "~/lib/constants";
 import { DaimoPayButton } from "@daimo/pay";
 import { getAddress } from "viem";
-import { baseUSDC } from "@daimo/contract";
 
 export default function SwordshareCard() {
   return (
